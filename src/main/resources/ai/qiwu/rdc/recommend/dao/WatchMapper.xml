@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ai.qiwu.rdc.recommend.dao.WatchMapper">
+    <!--根据渠道id查询-->
+    <select id="findByChannelId" resultType="ai.qiwu.rdc.recommend.pojo.Watch">
+        SELECT * FROM work_evaluate_tb
+        WHERE app_channel_id = #{channelId} AND online = #{online}
+    </select>
+
+    <!--根据用户id查询作品-->
+    <select id="findByUid" resultType="ai.qiwu.rdc.recommend.pojo.UserHistory">
+        SELECT * FROM app_user_history_tb
+        WHERE user_id = #{uid}
+    </select>
+
+    <!--根据用户id以及时间段查询作品-->
+    <select id="findByUidOfDate" resultType="ai.qiwu.rdc.recommend.pojo.UserHistory">
+        SELECT * FROM app_user_history_tb
+        WHERE user_id = #{uid} AND  gmt_modified >= #{startingTime} AND gmt_modified &lt;= #{endTime}
+    </select>
+
+    <!--根据用户ID渠道id查询易购买作品表中的数据-->
+    <select id="findByUidAndChannelId" resultType="ai.qiwu.rdc.recommend.pojo.PayControl">
+        SELECT * FROM pay_control_point_record_tb
+        WHERE uid = #{uid} AND channel_id=#{channelId}
+    </select>
+
+    <!--查询有购买系列作品表中的数据-->
+    <select id="seriesByUidAndChannelId" resultType="ai.qiwu.rdc.recommend.pojo.SeriesPay">
+        SELECT * FROM series_pay_record_tb
+        WHERE uid = #{uid} AND channel_id=#{channelId}
+    </select>
+
+    <!--根据用户ID渠道id查询和时间段购买系列作品表中的数据-->
+    <select id="seriesPayByUidOfTimeOfChannelId" resultType="ai.qiwu.rdc.recommend.pojo.SeriesPay">
+        SELECT * FROM series_pay_record_tb
+        WHERE uid = #{uid} AND channel_id=#{channelId} AND  gmt_create >= #{startingTime} AND gmt_modified &lt;= #{endTime}
+    </select>
+
+    <!--根据用户ID渠道id查询和时间段购买作品表中的数据-->
+    <select id="findByUidOfTimeOfChannelId" resultType="ai.qiwu.rdc.recommend.pojo.PayControl">
+        SELECT * FROM app_user_history_tb
+        WHERE user_id = #{uid} AND channel_id=#{channelId} AND  gmt_modified >= #{startingTime} AND gmt_modified &lt;= #{endTime}
+    </select>
+
+</mapper>
